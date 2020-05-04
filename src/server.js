@@ -125,6 +125,22 @@ io.on('connection', (socket) => {
         })
         socket.on('disconnect', () => {
             console.log('deetet', socket.id)
+            Game.findOne({player1ID : socket.id}, (err, game) => {
+                if(game) {
+                    let idPlayer = game.player2ID
+                    try {
+                        io.sockets.sockets[idPlayer].emit('gameend')
+                    } catch {}
+                } else {
+                    Game.findOne({player2ID : socket.id}, (err, game1) => {
+                        let idPlayer = game.player1ID
+                        try {
+                            io.sockets.sockets[idPlayer].emit('gameend')
+                        } catch {}
+                    })
+                }
+            })
+            
             Game.deleteOne({player1ID: socket.id}, (err, res) => {
                 //console.log(err, res)
             })
