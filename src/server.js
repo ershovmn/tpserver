@@ -4,8 +4,6 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const socketIO = require('socket.io')
 
-const http = require('http')
-
 const newGameGem = require('./fieldGenerator')
 const Game = require('./modelGame')
 
